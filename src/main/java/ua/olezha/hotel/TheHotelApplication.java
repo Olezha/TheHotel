@@ -1,4 +1,4 @@
-package org.olezha.hotel;
+package ua.olezha.hotel;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

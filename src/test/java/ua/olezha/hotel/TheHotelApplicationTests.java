@@ -1,4 +1,4 @@
-package org.olezha.hotel;
+package ua.olezha.hotel;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
