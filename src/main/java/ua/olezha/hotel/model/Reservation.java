@@ -2,10 +2,7 @@ package ua.olezha.hotel.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -21,9 +18,11 @@ public class Reservation {
     @GeneratedValue
     private Long id;
 
+    @ManyToOne
     private User user;
 
-    private Room room; // TODO: sinking about room vs rooms
+    @ManyToOne
+    private Room room;
 
     private LocalDateTime checkInDate, checkOutDate;
 
