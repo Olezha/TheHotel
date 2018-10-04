@@ -29,10 +29,12 @@ public class Reservation {
 
     private LocalDateTime checkIn, checkOut;
 
+    @Builder.Default
     private LocalDateTime created = LocalDateTime.now();
 
     private BigDecimal totalCost;
 
+    @Builder.Default
     private Boolean rejected = false;
 
     @Lob
