@@ -1,2 +1,2 @@
-# The Hotel
+# The Hotel ★
 Hotel booking system
