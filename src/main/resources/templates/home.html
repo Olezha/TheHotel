@@ -4,11 +4,13 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title th:text="#{project.title}"></title>
+    <th:block th:include="fragments::css"/>
 </head>
 <body>
 
 <h1>The Hôtel ★</h1>
 <p>Hotel booking system</p>
 
+<th:block th:include="fragments::js"/>
 </body>
 </html>
