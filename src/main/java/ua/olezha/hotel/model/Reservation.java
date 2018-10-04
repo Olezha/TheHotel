@@ -1,6 +1,8 @@
 package ua.olezha.hotel.model;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -11,6 +13,8 @@ import java.time.LocalDateTime;
  */
 
 @Data
+@Builder
+@NoArgsConstructor
 @Entity
 public class Reservation {
 
@@ -30,7 +34,7 @@ public class Reservation {
 
     private BigDecimal totalCost;
 
-    private Boolean rejected;
+    private Boolean rejected = false;
 
     @Lob
     private String guestRemark;

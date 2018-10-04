@@ -9,6 +9,10 @@ import ua.olezha.hotel.model.Room;
 import ua.olezha.hotel.model.User;
 import ua.olezha.hotel.repository.ReservationRepository;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 @Service
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -16,11 +20,17 @@ public class ReservationService {
 
     ReservationRepository reservationRepository;
 
-    public void book(Room room, User user) {
-        Reservation reservation = new Reservation();
-        reservation.setUser(user);
-        reservation.setRoom(room);
-        // TODO
-        reservationRepository.save(reservation);
+    public void book(Room room, User user,
+                     LocalDateTime checkIn, LocalDateTime checkOut,
+                     String guestRemark) {
+        reservationRepository.save(Reservation.builder()
+                .user(user)
+                .room(room)
+                .checkIn(checkIn)
+                .checkOut(checkOut)
+                .guestRemark(guestRemark)
+                .totalCost(room.getPrice().multiply(
+                        BigDecimal.valueOf(ChronoUnit.DAYS.between(checkIn, checkOut))))
+                .build());
     }
 }
