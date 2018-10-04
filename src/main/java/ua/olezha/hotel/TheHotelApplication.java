@@ -31,6 +31,9 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .ignoringAntMatchers("/h2-console/**")
 
                 .and()
+                .formLogin().permitAll()
+
+                .and()
                 .headers()
                 .frameOptions()
                 .disable();
