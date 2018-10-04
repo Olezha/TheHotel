@@ -1,15 +1,16 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title th:text="#{project.title}"></title>
     <th:block th:include="fragments::css"/>
 </head>
 <body>
+<th:block th:include="fragments::management-nav" th:with="navItem='reservations'"/>
 
-<h1>The Hôtel ★</h1>
-<p>Management</p>
+<div class="container mt-3">
+</div>
 
 <th:block th:include="fragments::js"/>
 </body>

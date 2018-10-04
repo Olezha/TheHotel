@@ -7,9 +7,11 @@
     <th:block th:include="fragments::css"/>
 </head>
 <body>
+<th:block th:include="fragments::management-nav" th:with="navItem='rooms'"/>
 
-<h1>The Hôtel ★</h1>
-<p>Hotel booking system</p>
+<div class="container mt-3">
+    <button type="button" class="btn btn-info">Add Room</button>
+</div>
 
 <th:block th:include="fragments::js"/>
 </body>

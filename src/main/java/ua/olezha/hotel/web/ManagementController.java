@@ -14,7 +14,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ManagementController {
 
     @GetMapping
-    public String management() {
-        return "management";
+    public String reservations() {
+        return "management-reservations";
+    }
+
+    @GetMapping("/rooms")
+    public String rooms() {
+        return "management-rooms";
+    }
+
+    @GetMapping("/hotels")
+    public String hotels() {
+        return "management-hotels";
+    }
+
+    @GetMapping("/users")
+    public String users() {
+        return "management-users";
     }
 }
