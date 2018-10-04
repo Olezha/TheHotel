@@ -1,2 +1,2 @@
 # The Hôtel ★
-Hotel booking system
+Simple real hôtel booking system
