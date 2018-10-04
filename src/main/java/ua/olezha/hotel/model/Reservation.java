@@ -1,8 +1,6 @@
 package ua.olezha.hotel.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -12,10 +10,11 @@ import java.time.LocalDateTime;
  * @author  Oleh Shklyar
  */
 
-@Data
-@Builder
-@NoArgsConstructor
 @Entity
+@Builder
+@NoArgsConstructor @AllArgsConstructor
+@Getter @Setter
+@EqualsAndHashCode @ToString
 public class Reservation {
 
     @Id
