@@ -25,7 +25,7 @@ public class Reservation {
 
     private Room room; // TODO: sinking about room vs rooms
 
-    private LocalDateTime checkInDate, checkOutDate;
+    private LocalDateTime checkIn, checkOut;
 
     private LocalDateTime created = LocalDateTime.now();
 
