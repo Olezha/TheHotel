@@ -1,6 +1,8 @@
 package ua.olezha.hotel.model;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,22 +13,23 @@ import javax.persistence.Lob;
  * @author  Oleh Shklyar
  */
 
-@Data
 @Entity
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
 
     @Id
     @GeneratedValue
-    private Long id;
+    Long id;
 
-    private String fullName;
+    String fullName;
 
-    private String email;
+    String email;
 
-    private String phone;
+    String phone;
 
-    private String password;
+    String password;
 
     @Lob
-    private String remark;
+    String remark;
 }

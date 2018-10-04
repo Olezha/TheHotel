@@ -1,6 +1,8 @@
 package ua.olezha.hotel.model;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -10,23 +12,24 @@ import java.util.List;
  * @author  Oleh Shklyar
  */
 
-@Data
 @Entity
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Room {
 
     @Id
     @GeneratedValue
-    private Long id;
+    Long id;
 
-    private String number;
+    String number;
 
     @Lob
-    private String description;
+    String description;
 
     @ElementCollection
-    private List<String> photos;
+    List<String> photos;
 
-    private Integer accommodates;
+    Integer accommodates;
 
-    private BigDecimal price;
+    BigDecimal price;
 }

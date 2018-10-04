@@ -1,6 +1,7 @@
 package ua.olezha.hotel.model;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -15,31 +16,32 @@ import java.time.LocalDateTime;
 @NoArgsConstructor @AllArgsConstructor
 @Getter @Setter
 @EqualsAndHashCode @ToString
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Reservation {
 
     @Id
     @GeneratedValue
-    private Long id;
+    Long id;
 
     @ManyToOne
-    private User user;
+    User user;
 
     @ManyToOne
-    private Room room;
+    Room room;
 
-    private LocalDateTime checkIn, checkOut;
-
-    @Builder.Default
-    private LocalDateTime created = LocalDateTime.now();
-
-    private BigDecimal totalCost;
+    LocalDateTime checkIn, checkOut;
 
     @Builder.Default
-    private Boolean rejected = false;
+    LocalDateTime created = LocalDateTime.now();
+
+    BigDecimal totalCost;
+
+    @Builder.Default
+    Boolean rejected = false;
 
     @Lob
-    private String guestRemark;
+    String guestRemark;
 
     @Lob
-    private String ownerRemark;
+    String ownerRemark;
 }

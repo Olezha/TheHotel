@@ -1,6 +1,7 @@
 package ua.olezha.hotel.model;
 
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,15 +12,20 @@ import java.math.BigDecimal;
  * @author  Oleh Shklyar
  */
 
-@Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter @Setter
+@EqualsAndHashCode @ToString
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class GeoPoint {
 
     @Id
     @GeneratedValue
-    private Long id;
+    Long id;
 
-    private BigDecimal longitude;
+    BigDecimal longitude;
 
-    private BigDecimal latitude;
+    BigDecimal latitude;
 }
