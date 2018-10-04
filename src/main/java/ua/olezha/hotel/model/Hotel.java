@@ -2,10 +2,7 @@ package ua.olezha.hotel.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -24,12 +21,15 @@ public class Hotel {
 
     private String address;
 
+    @ManyToOne
     private GeoPoint geoPoint;
 
     @Lob
     private String description;
 
+    @ElementCollection
     private List<String> photos;
 
+    @OneToMany
     private List<Room> rooms;
 }

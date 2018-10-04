@@ -2,10 +2,7 @@ package ua.olezha.hotel.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -26,6 +23,7 @@ public class Room {
     @Lob
     private String description;
 
+    @ElementCollection
     private List<String> photos;
 
     private Integer accommodates;
