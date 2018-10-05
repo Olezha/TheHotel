@@ -38,10 +38,6 @@ public class MathUtils {
                 cleanNumber.append(number.charAt(i));
             }
 
-        String cleanNumberString = cleanNumber.toString();
-        if (containsDigit)
-            return cleanNumberString;
-
-        return "";
+        return containsDigit ? cleanNumber.toString() : "";
     }
 }
