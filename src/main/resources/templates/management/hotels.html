@@ -7,9 +7,10 @@
     <th:block th:include="fragments::css"/>
 </head>
 <body>
-<th:block th:include="fragments::management-nav" th:with="navItem='reservations'"/>
+<th:block th:include="management/fragments::navbar" th:with="navItem='hotel'"/>
 
 <div class="container mt-3">
+    <a th:href="@{/management/hotels/add}" class="btn btn-primary">Add Hotel</a>
 </div>
 
 <th:block th:include="fragments::js"/>

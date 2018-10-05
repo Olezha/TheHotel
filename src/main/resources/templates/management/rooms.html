@@ -7,9 +7,10 @@
     <th:block th:include="fragments::css"/>
 </head>
 <body>
-<th:block th:include="fragments::management-nav" th:with="navItem='users'"/>
+<th:block th:include="management/fragments::navbar" th:with="navItem='rooms'"/>
 
 <div class="container mt-3">
+    <button type="button" class="btn btn-primary">Add Room</button>
 </div>
 
 <th:block th:include="fragments::js"/>
