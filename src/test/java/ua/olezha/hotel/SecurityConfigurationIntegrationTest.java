@@ -10,9 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Objects;
 
 import static org.junit.Assert.*;
 
@@ -34,20 +34,20 @@ public class SecurityConfigurationIntegrationTest {
     }
 
     @Test
-    public void whenLoggedUserRequestsHomePage_ThenSuccess() throws IllegalStateException, IOException {
+    public void whenLoggedUserRequestsHomePage_ThenSuccess() throws IllegalStateException {
         ResponseEntity<String> response =
                 restTemplate.getForEntity(baseUrl.toString(), String.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(response.getBody().contains("Hotel"));
+        assertTrue(Objects.requireNonNull(response.getBody()).contains("Hotel"));
     }
 
     @Test
-    public void whenUserWithWrongCredentials_thenUnauthorizedPage() throws Exception {
+    public void whenUserWithWrongCredentials_thenUnauthorizedPage() {
         ResponseEntity<String> response =
                 restTemplate.getForEntity(baseUrl.toString() + "/management", String.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(response.getBody().contains("Login Page"));
+        assertTrue(Objects.requireNonNull(response.getBody()).contains("Login Page"));
     }
 }

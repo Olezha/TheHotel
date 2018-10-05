@@ -11,10 +11,10 @@ import ua.olezha.hotel.model.GeoPoint;
 import ua.olezha.hotel.model.Hotel;
 import ua.olezha.hotel.repository.GeoPointRepository;
 import ua.olezha.hotel.repository.HotelRepository;
-import ua.olezha.hotel.util.StringUtils;
+import ua.olezha.hotel.util.MathUtils;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
+import javax.validation.constraints.NotEmpty;
 
 @Slf4j
 @Controller
@@ -73,69 +73,50 @@ public class ManagementController {
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-class HotelDto extends Hotel {
+class HotelDto {
+
+    Long id;
+
+    @NotEmpty
+    String name;
+
+    String address;
+
+    String description;
 
     Long geoPointId;
 
-    BigDecimal geoLongitude;
+    String geoLongitude;
 
-    BigDecimal geoLatitude;
+    String geoLatitude;
 
     static HotelDto valueOf(Hotel hotel) {
         HotelDto hotelDto = new HotelDto();
-        hotelDto.setId(hotel.getId());
-        hotelDto.setName(hotel.getName());
-        hotelDto.setAddress(hotel.getAddress());
-        hotelDto.setDescription(hotel.getDescription());
+        hotelDto.id = hotel.getId();
+        hotelDto.name = hotel.getName();
+        hotelDto.address = hotel.getAddress();
+        hotelDto.description = hotel.getDescription();
         if (hotel.getGeoPoint() != null) {
             hotelDto.geoPointId = hotel.getGeoPoint().getId();
-            hotelDto.geoLongitude = hotel.getGeoPoint().getLongitude();
-            hotelDto.geoLatitude = hotel.getGeoPoint().getLatitude();
+            hotelDto.geoLongitude = hotel.getGeoPoint().getLongitude().toString();
+            hotelDto.geoLatitude = hotel.getGeoPoint().getLatitude().toString();
         }
         return hotelDto;
     }
 
     Hotel build() {
         return Hotel.builder()
-                .id(getId())
-                .name(getName())
-                .address(getAddress())
+                .id(id)
+                .name(name)
+                .address(address)
                 .geoPoint(GeoPoint.builder()
                         .id(geoPointId)
-                        .longitude(geoLongitude)
-                        .latitude(geoLatitude)
+                        .longitude(Double.parseDouble(
+                                MathUtils.cleanNumber(geoLongitude)))
+                        .latitude(Double.parseDouble(
+                                MathUtils.cleanNumber(geoLatitude)))
                         .build())
-                .description(getDescription())
-                .photos(getPhotos())
-                .rooms(getRooms())
+                .description(description)
                 .build();
-    }
-
-    public String getGeoLongitude() {
-        return geoLongitude == null ? null : geoLongitude.toString();
-    }
-
-    public void setGeoLongitude(String geoLongitude) {
-        this.geoLongitude = new BigDecimal(
-                cutGeoString(
-                        StringUtils.cleanNumbersString(geoLongitude)));
-    }
-
-    public String getGeoLatitude() {
-        return geoLatitude == null ? null : geoLatitude.toString();
-    }
-
-    public void setGeoLatitude(String geoLatitude) {
-        this.geoLatitude = new BigDecimal(
-                cutGeoString(
-                        StringUtils.cleanNumbersString(geoLatitude)));
-    }
-
-    private String cutGeoString(String geoString) {
-        if (geoString.charAt(0) == '-' && geoString.length() > 12)
-            geoString = geoString.substring(0, 11);
-        else if (geoString.length() > 11)
-            geoString = geoString.substring(0, 10);
-        return geoString;
     }
 }
