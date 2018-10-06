@@ -18,6 +18,12 @@ public class MathUtilsTest {
     }
 
     @Test
+    public void mereThanOneDotTest() {
+        assertEquals("123.1", MathUtils.cleanNumber("1,23.1"));
+        assertEquals("123.1", MathUtils.cleanNumber("123,,1"));
+    }
+
+    @Test
     public void onlySpecialCharacterTest() {
         assertEquals("", MathUtils.cleanNumber("."));
         assertEquals("", MathUtils.cleanNumber(","));
