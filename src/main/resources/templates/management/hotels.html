@@ -10,7 +10,22 @@
 <th:block th:include="management/fragments::navbar" th:with="navItem='hotel'"/>
 
 <div class="container mt-3">
-    <a th:href="@{/management/hotels/add}" class="btn btn-primary">Add Hotel</a>
+    <table id="hotels" class="display">
+        <tbody>
+        <tr th:each="hotel:${hotels}">
+                <td>
+                    <a th:text="${hotel.name}"
+                       th:href="@{'/management/hotels/'+${hotel.id}+'/edit'}">
+                        Hotel
+                    </a>
+                </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="mt-3">
+        <a th:href="@{/management/hotels/add}" class="btn btn-primary">Add Hotel</a>
+    </div>
 </div>
 
 <th:block th:include="fragments::js"/>

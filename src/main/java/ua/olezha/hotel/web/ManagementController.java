@@ -37,7 +37,8 @@ public class ManagementController {
     }
 
     @GetMapping("/hotels")
-    public void hotels() {
+    public void hotels(Model model) {
+        model.addAttribute("hotels", hotelRepository.findAll());
     }
 
     @GetMapping({"/hotels/add", "/hotels/{id}/edit"})
