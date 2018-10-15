@@ -1,7 +1,6 @@
 package ua.olezha.hotel.model;
 
-import lombok.AccessLevel;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -13,7 +12,11 @@ import java.util.List;
  */
 
 @Entity
-@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter @Setter
+@EqualsAndHashCode @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Room {
 
@@ -32,4 +35,7 @@ public class Room {
     Integer accommodates;
 
     BigDecimal price;
+
+    @ManyToOne
+    Hotel hotel;
 }

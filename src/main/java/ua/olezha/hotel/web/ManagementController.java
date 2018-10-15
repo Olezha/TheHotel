@@ -9,12 +9,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.olezha.hotel.model.GeoPoint;
 import ua.olezha.hotel.model.Hotel;
+import ua.olezha.hotel.model.Room;
 import ua.olezha.hotel.repository.GeoPointRepository;
 import ua.olezha.hotel.repository.HotelRepository;
+import ua.olezha.hotel.repository.RoomRepository;
 import ua.olezha.hotel.util.MathUtils;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.math.BigDecimal;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -25,6 +29,8 @@ public class ManagementController {
 
     HotelRepository hotelRepository;
 
+    RoomRepository roomRepository;
+
     GeoPointRepository geoPointRepository;
 
     @GetMapping
@@ -32,8 +38,45 @@ public class ManagementController {
         return "management/reservations";
     }
 
-    @GetMapping("/rooms")
-    public void rooms() {
+    @GetMapping("/hotel/{hotelId}/rooms")
+    public String rooms(Model model, @PathVariable Long hotelId) {
+        model.addAttribute("hotelId", hotelId);
+        model.addAttribute("rooms", roomRepository.findAllByHotel_Id(hotelId));
+        return "management/rooms";
+    }
+
+    @GetMapping({"/hotel/{hotelId}/room/add", "/hotel/{hotelId}/room/{id}/edit"})
+    public String editHotelRoom(Model model, @PathVariable Long hotelId,
+                                @PathVariable(required = false) Long id) {
+        model.addAttribute("hotelId", hotelId);
+
+        if (id != null)
+            roomRepository.findById(id)
+                    .ifPresent(r -> model.addAttribute("room", RoomDto.valueOf(r)));
+
+        if (!model.containsAttribute("room"))
+            model.addAttribute("room", new RoomDto());
+
+        return "management/room-edit";
+    }
+
+    @PostMapping("/hotel/{hotelId}/rooms")
+    public String editRoom(Model model, @PathVariable Long hotelId,
+                           @Valid @ModelAttribute("room") RoomDto roomDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("hotelId", hotelId);
+            return "management/room-edit";
+        }
+
+        Optional<Hotel> hotel = hotelRepository.findById(hotelId);
+        if (!hotel.isPresent())
+            throw new RuntimeException();
+
+        Room room = roomDto.build();
+        room.setHotel(hotel.get());
+        roomRepository.save(room);
+
+        return "redirect:/management/hotel/" + hotelId + "/rooms";
     }
 
     @GetMapping("/hotels")
@@ -55,7 +98,6 @@ public class ManagementController {
 
     @PostMapping("/hotels")
     public String editHotel(@Valid @ModelAttribute("hotel") HotelDto hotelDto, BindingResult bindingResult) {
-        log.info("{}", bindingResult);
         if (bindingResult.hasErrors())
             return "management/hotel-edit";
 
@@ -118,6 +160,43 @@ class HotelDto {
                                 MathUtils.cleanNumber(geoLatitude)))
                         .build())
                 .description(description)
+                .build();
+    }
+}
+
+@Getter
+@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+class RoomDto {
+
+    Long id;
+
+    @NotEmpty
+    String number;
+
+    String description;
+
+    Integer accommodates;
+
+    BigDecimal price;
+
+    static RoomDto valueOf(Room room) {
+        RoomDto roomDto = new RoomDto();
+        roomDto.id = room.getId();
+        roomDto.number = room.getNumber();
+        roomDto.description = room.getDescription();
+        roomDto.accommodates = room.getAccommodates();
+        roomDto.price = room.getPrice();
+        return roomDto;
+    }
+
+    Room build() {
+        return Room.builder()
+                .id(id)
+                .number(number)
+                .description(description)
+                .accommodates(accommodates)
+                .price(price)
                 .build();
     }
 }

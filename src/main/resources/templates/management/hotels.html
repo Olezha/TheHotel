@@ -13,12 +13,17 @@
     <table id="hotels" class="display">
         <tbody>
         <tr th:each="hotel:${hotels}">
-                <td>
-                    <a th:text="${hotel.name}"
-                       th:href="@{'/management/hotels/'+${hotel.id}+'/edit'}">
-                        Hotel
-                    </a>
-                </td>
+            <td>
+                <a th:text="${hotel.name}"
+                   th:href="@{'/management/hotels/'+${hotel.id}+'/edit'}">
+                    Hotel
+                </a>
+            </td>
+            <td>
+                <a th:href="@{'/management/hotel/'+${hotel.id}+'/rooms'}">
+                    Rooms
+                </a>
+            </td>
         </tr>
         </tbody>
     </table>
