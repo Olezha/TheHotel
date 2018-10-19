@@ -20,7 +20,7 @@ public class ReservationService {
 
     ReservationRepository reservationRepository;
 
-    public void book(Room room, User user,
+    public void reserve(Room room, User user,
                      LocalDateTime checkIn, LocalDateTime checkOut,
                      String guestRemark) {
         reservationRepository.save(Reservation.builder()

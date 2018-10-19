@@ -1,0 +1,20 @@
+{
+  "properties": [
+    {
+      "name": "hotel.checkInHour",
+      "type": "java.lang.Integer"
+    },
+    {
+      "name": "hotel.checkInMinute",
+      "type": "java.lang.Integer"
+    },
+    {
+      "name": "hotel.checkOutHour",
+      "type": "java.lang.Integer"
+    },
+    {
+      "name": "hotel.checkOutMinute",
+      "type": "java.lang.Integer"
+    }
+  ]
+}

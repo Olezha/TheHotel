@@ -14,23 +14,33 @@
         <input th:field="*{id}" type="hidden"/>
         <div class="form-group">
             <input th:field="*{name}" placeholder="Hotel name" type="text" class="form-control"/>
+            <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                   class="form-text text-muted">Name Err</small>
         </div>
         <div class="form-group">
             <input th:field="*{address}" placeholder="Address" type="text" class="form-control"/>
+            <small th:if="${#fields.hasErrors('address')}" th:errors="*{address}"
+                   class="form-text text-muted">Address Err</small>
         </div>
         <div class="form-group">
             <div class="row">
                 <input th:field="*{geoPointId}" type="hidden">
                 <div class="col">
                     <input th:field="*{geoLongitude}" placeholder="Geo longitude" type="text" class="form-control"/>
+                    <small th:if="${#fields.hasErrors('geoLongitude')}" th:errors="*{geoLongitude}"
+                           class="form-text text-muted">GeoLongitude Err</small>
                 </div>
                 <div class="col">
                     <input th:field="*{geoLatitude}" placeholder="Geo latitude" type="text" class="form-control"/>
+                    <small th:if="${#fields.hasErrors('geoLatitude')}" th:errors="*{geoLatitude}"
+                           class="form-text text-muted">GeoLatitude Err</small>
                 </div>
             </div>
         </div>
         <div class="form-group">
             <textarea th:field="*{description}" placeholder="Description" class="form-control" rows="3"></textarea>
+            <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                   class="form-text text-muted">Description Err</small>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

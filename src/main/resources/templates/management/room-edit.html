@@ -14,15 +14,23 @@
         <input th:field="*{id}" type="hidden"/>
         <div class="form-group">
             <input th:field="*{number}" placeholder="Room number" type="text" class="form-control"/>
+            <small th:if="${#fields.hasErrors('number')}" th:errors="*{number}"
+                   class="form-text text-muted">Number Err</small>
         </div>
         <div class="form-group">
             <textarea th:field="*{description}" placeholder="Description" class="form-control" rows="3"></textarea>
+            <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                   class="form-text text-muted">Description Err</small>
         </div>
         <div class="form-group">
-            <input th:field="*{accommodates}" placeholder="Accommodates" type="number" class="form-control"/>
+            <input th:field="*{persons}" placeholder="Persons" type="number" class="form-control"/>
+            <small th:if="${#fields.hasErrors('persons')}" th:errors="*{persons}"
+                   class="form-text text-muted">Persons Err</small>
         </div>
         <div class="form-group">
             <input th:field="*{price}" placeholder="Price" type="number" class="form-control"/>
+            <small th:if="${#fields.hasErrors('price')}" th:errors="*{price}"
+                   class="form-text text-muted">Price Err</small>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

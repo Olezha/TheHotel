@@ -32,7 +32,7 @@ public class Room {
     @ElementCollection
     List<String> photos;
 
-    Integer accommodates;
+    Integer persons;
 
     BigDecimal price;
 

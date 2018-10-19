@@ -10,18 +10,25 @@
 <th:block th:include="management/fragments::navbar" th:with="navItem='hotel'"/>
 
 <div class="container mt-3">
-    <table id="hotels" class="display">
+    <table id="hotels">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Rooms</th>
+        </tr>
+        </thead>
         <tbody>
         <tr th:each="hotel:${hotels}">
             <td>
-                <a th:text="${hotel.name}"
-                   th:href="@{'/management/hotels/'+${hotel.id}+'/edit'}">
-                    Hotel
+                <span th:text="${hotel.name}"></span>
+                <a th:href="@{'/management/hotels/'+${hotel.id}+'/edit'}">
+                    edit
                 </a>
             </td>
             <td>
+                <span th:text="${hotel.rooms.size()}"></span>
                 <a th:href="@{'/management/hotel/'+${hotel.id}+'/rooms'}">
-                    Rooms
+                    list
                 </a>
             </td>
         </tr>
@@ -34,5 +41,10 @@
 </div>
 
 <th:block th:include="fragments::js"/>
+<script>
+    $(document).ready(function () {
+        $('#hotels').DataTable();
+    });
+</script>
 </body>
 </html>

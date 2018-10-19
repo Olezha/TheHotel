@@ -38,11 +38,44 @@ public class ManagementController {
         return "management/reservations";
     }
 
+    @GetMapping("/hotels")
+    public void hotels(Model model) {
+        model.addAttribute("hotels", hotelRepository.findAll());
+    }
+
     @GetMapping("/hotel/{hotelId}/rooms")
     public String rooms(Model model, @PathVariable Long hotelId) {
         model.addAttribute("hotelId", hotelId);
         model.addAttribute("rooms", roomRepository.findAllByHotel_Id(hotelId));
         return "management/rooms";
+    }
+
+    @GetMapping("/users")
+    public void users() {
+    }
+
+    @GetMapping({"/hotels/add", "/hotels/{id}/edit"})
+    public String editHotel(Model model, @PathVariable(required = false) Long id) {
+        if (id != null)
+            hotelRepository.findById(id)
+                    .ifPresent(h -> model.addAttribute("hotel", HotelDto.valueOf(h)));
+
+        if (!model.containsAttribute("hotel"))
+            model.addAttribute("hotel", new HotelDto());
+
+        return "management/hotel-edit";
+    }
+
+    @PostMapping("/hotels")
+    public String editHotel(@Valid @ModelAttribute("hotel") HotelDto hotelDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "management/hotel-edit";
+
+        Hotel hotel = hotelDto.build();
+        geoPointRepository.save(hotel.getGeoPoint());
+        hotelRepository.save(hotel);
+
+        return "redirect:/management/hotels";
     }
 
     @GetMapping({"/hotel/{hotelId}/room/add", "/hotel/{hotelId}/room/{id}/edit"})
@@ -78,39 +111,6 @@ public class ManagementController {
 
         return "redirect:/management/hotel/" + hotelId + "/rooms";
     }
-
-    @GetMapping("/hotels")
-    public void hotels(Model model) {
-        model.addAttribute("hotels", hotelRepository.findAll());
-    }
-
-    @GetMapping({"/hotels/add", "/hotels/{id}/edit"})
-    public String editHotel(Model model, @PathVariable(required = false) Long id) {
-        if (id != null)
-            hotelRepository.findById(id)
-                    .ifPresent(h -> model.addAttribute("hotel", HotelDto.valueOf(h)));
-
-        if (!model.containsAttribute("hotel"))
-            model.addAttribute("hotel", new HotelDto());
-
-        return "management/hotel-edit";
-    }
-
-    @PostMapping("/hotels")
-    public String editHotel(@Valid @ModelAttribute("hotel") HotelDto hotelDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
-            return "management/hotel-edit";
-
-        Hotel hotel = hotelDto.build();
-        geoPointRepository.save(hotel.getGeoPoint());
-        hotelRepository.save(hotel);
-
-        return "redirect:/management/hotels";
-    }
-
-    @GetMapping("/users")
-    public void users() {
-    }
 }
 
 @Getter
@@ -129,8 +129,10 @@ class HotelDto {
 
     Long geoPointId;
 
+    @NotEmpty
     String geoLongitude;
 
+    @NotEmpty
     String geoLatitude;
 
     static HotelDto valueOf(Hotel hotel) {
@@ -176,7 +178,7 @@ class RoomDto {
 
     String description;
 
-    Integer accommodates;
+    Integer persons;
 
     BigDecimal price;
 
@@ -185,7 +187,7 @@ class RoomDto {
         roomDto.id = room.getId();
         roomDto.number = room.getNumber();
         roomDto.description = room.getDescription();
-        roomDto.accommodates = room.getAccommodates();
+        roomDto.persons = room.getPersons();
         roomDto.price = room.getPrice();
         return roomDto;
     }
@@ -195,7 +197,7 @@ class RoomDto {
                 .id(id)
                 .number(number)
                 .description(description)
-                .accommodates(accommodates)
+                .persons(persons)
                 .price(price)
                 .build();
     }
