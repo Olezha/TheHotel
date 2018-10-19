@@ -11,14 +11,13 @@ import ua.olezha.hotel.model.GeoPoint;
 import ua.olezha.hotel.model.Hotel;
 import ua.olezha.hotel.model.Room;
 import ua.olezha.hotel.repository.GeoPointRepository;
-import ua.olezha.hotel.repository.HotelRepository;
 import ua.olezha.hotel.repository.RoomRepository;
+import ua.olezha.hotel.service.HotelService;
 import ua.olezha.hotel.util.MathUtils;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -27,7 +26,7 @@ import java.util.Optional;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ManagementController {
 
-    HotelRepository hotelRepository;
+    HotelService hotelService;
 
     RoomRepository roomRepository;
 
@@ -40,7 +39,7 @@ public class ManagementController {
 
     @GetMapping("/hotels")
     public void hotels(Model model) {
-        model.addAttribute("hotels", hotelRepository.findAll());
+        model.addAttribute("hotels", hotelService.hotels());
     }
 
     @GetMapping("/hotel/{hotelId}/rooms")
@@ -56,9 +55,7 @@ public class ManagementController {
 
     @GetMapping({"/hotels/add", "/hotels/{id}/edit"})
     public String editHotel(Model model, @PathVariable(required = false) Long id) {
-        if (id != null)
-            hotelRepository.findById(id)
-                    .ifPresent(h -> model.addAttribute("hotel", HotelDto.valueOf(h)));
+        model.addAttribute("hotel", HotelDto.valueOf(hotelService.hotel(id)));
 
         if (!model.containsAttribute("hotel"))
             model.addAttribute("hotel", new HotelDto());
@@ -73,7 +70,7 @@ public class ManagementController {
 
         Hotel hotel = hotelDto.build();
         geoPointRepository.save(hotel.getGeoPoint());
-        hotelRepository.save(hotel);
+        hotelService.save(hotel);
 
         return "redirect:/management/hotels";
     }
@@ -101,12 +98,8 @@ public class ManagementController {
             return "management/room-edit";
         }
 
-        Optional<Hotel> hotel = hotelRepository.findById(hotelId);
-        if (!hotel.isPresent())
-            throw new RuntimeException();
-
         Room room = roomDto.build();
-        room.setHotel(hotel.get());
+        room.setHotel(hotelService.hotel(hotelId));
         roomRepository.save(room);
 
         return "redirect:/management/hotel/" + hotelId + "/rooms";
@@ -180,6 +173,7 @@ class RoomDto {
 
     Integer persons;
 
+    @NonNull
     BigDecimal price;
 
     static RoomDto valueOf(Room room) {

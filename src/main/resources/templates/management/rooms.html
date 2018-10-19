@@ -20,9 +20,9 @@
         <tbody>
         <tr th:each="room:${rooms}">
             <td>
-                <span th:text="${room.number}"></span>
                 <a th:href="@{'/management/hotel/'+${hotelId}+'/room/'+${room.id}+'/edit'}">
-                    edit
+                    <span th:text="${room.number}"></span>
+                    (edit)
                 </a>
             </td>
             <td>

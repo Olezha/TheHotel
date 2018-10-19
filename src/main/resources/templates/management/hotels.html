@@ -20,15 +20,15 @@
         <tbody>
         <tr th:each="hotel:${hotels}">
             <td>
-                <span th:text="${hotel.name}"></span>
                 <a th:href="@{'/management/hotels/'+${hotel.id}+'/edit'}">
-                    edit
+                    <span th:text="${hotel.name}"></span>
+                    (edit)
                 </a>
             </td>
             <td>
-                <span th:text="${hotel.rooms.size()}"></span>
                 <a th:href="@{'/management/hotel/'+${hotel.id}+'/rooms'}">
-                    list
+                    <span th:text="${hotel.rooms.size()}"></span>
+                    (list)
                 </a>
             </td>
         </tr>
