@@ -18,7 +18,7 @@ public class MathUtilsTest {
     }
 
     @Test
-    public void mereThanOneDotTest() {
+    public void moreThanOneDotTest() {
         assertEquals("123.1", MathUtils.cleanNumber("1,23.1"));
         assertEquals("123.1", MathUtils.cleanNumber("123,,1"));
     }
