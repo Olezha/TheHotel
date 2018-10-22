@@ -12,5 +12,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     List<Room> findAllByHotel_Id(Long hotelId);
 
     @Query(nativeQuery = true)
-    List<Room> availableRooms(Long hotelId, LocalDateTime checkIn, LocalDateTime checkOut, Integer persons);
+    List<Room> availableRooms(Long hotelId,
+                              Integer persons,
+                              Integer preReservationDurationMinute,
+                              LocalDateTime checkIn, LocalDateTime checkOut);
 }

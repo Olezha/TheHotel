@@ -1,0 +1,62 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title th:text="#{project.title}"></title>
+    <th:block th:include="fragments::css"/>
+</head>
+<body>
+
+<th:block th:include="fragments::header"/>
+
+<div class="container mt-3">
+    Reservation info: room No <span th:text="${reservation.roomNumber}"></span>
+    from <span th:text="${reservation.checkIn}"></span>
+    to <span th:text="${reservation.checkOut}"></span>.
+    Total cost: <span th:text="${reservation.totalCost}"></span>.
+</div>
+
+<div class="container mt-3">
+    <form th:action="@{/reservation/confirm}" th:object="${reservation}" method="post">
+        <input th:field="*{id}" type="hidden"/>
+        <input th:field="*{roomNumber}" type="hidden"/>
+        <input th:field="*{checkIn}" type="hidden"/>
+        <input th:field="*{checkOut}" type="hidden"/>
+        <input th:field="*{totalCost}" type="hidden"/>
+        <div class="form-group">
+            <input th:field="*{userFullName}" placeholder="Full Name" type="text" class="form-control"/>
+            <small th:if="${#fields.hasErrors('userFullName')}" th:errors="*{userFullName}"
+                   class="form-text text-muted">Name Err</small>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <input th:field="*{userPhone}" placeholder="Phone" type="text" class="form-control"/>
+                    <small th:if="${#fields.hasErrors('userPhone')}" th:errors="*{userPhone}"
+                           class="form-text text-muted">Phone Err</small>
+                </div>
+                <div class="col">
+                    <input th:field="*{userEmail}" placeholder="Email" type="text" class="form-control"/>
+                    <small th:if="${#fields.hasErrors('userEmail')}" th:errors="*{userEmail}"
+                           class="form-text text-muted">Email Err</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <textarea th:field="*{guestRemark}" placeholder="Remark" class="form-control" rows="3"></textarea>
+            <small th:if="${#fields.hasErrors('guestRemark')}" th:errors="*{guestRemark}"
+                   class="form-text text-muted">GuestRemark Err</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Confirm</button>
+    </form>
+
+    <form th:action="@{/reservation/reject}" th:object="${reservation}" method="post" style="text-align: right;">
+        <input th:field="*{id}" type="hidden"/>
+        <button type="submit" class="btn btn-primary">Reject</button>
+    </form>
+</div>
+
+<th:block th:include="fragments::js"/>
+</body>
+</html>

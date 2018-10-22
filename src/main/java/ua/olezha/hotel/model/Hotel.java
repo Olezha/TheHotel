@@ -7,15 +7,17 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
- * @author  Oleh Shklyar
+ * @author Oleh Shklyar
  */
 
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter @Setter
-@EqualsAndHashCode @ToString
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = "rooms")
+@ToString(exclude = "rooms")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Hotel {
 
@@ -36,6 +38,6 @@ public class Hotel {
     @ElementCollection
     List<String> photos;
 
-    @OneToMany
+    @OneToMany(mappedBy = "hotel")
     List<Room> rooms;
 }

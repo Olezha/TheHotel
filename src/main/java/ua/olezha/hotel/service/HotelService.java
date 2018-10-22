@@ -26,10 +26,7 @@ public class HotelService {
     }
 
     public List<Hotel> hotels() {
-        List<Hotel> hotels = hotelRepository.findAll();
-        // todo
-        log.info("{}", hotels);
-        return hotels;
+        return hotelRepository.findAll();
     }
 
     public Hotel save(Hotel hotel) {

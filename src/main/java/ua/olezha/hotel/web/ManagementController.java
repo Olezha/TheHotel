@@ -9,15 +9,21 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.olezha.hotel.model.GeoPoint;
 import ua.olezha.hotel.model.Hotel;
+import ua.olezha.hotel.model.Reservation;
 import ua.olezha.hotel.model.Room;
 import ua.olezha.hotel.repository.GeoPointRepository;
 import ua.olezha.hotel.repository.RoomRepository;
 import ua.olezha.hotel.service.HotelService;
+import ua.olezha.hotel.service.ReservationService;
 import ua.olezha.hotel.util.MathUtils;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -32,8 +38,16 @@ public class ManagementController {
 
     GeoPointRepository geoPointRepository;
 
+    ReservationService reservationService;
+
     @GetMapping
-    public String reservations() {
+    public String reservations(Model model) {
+        LocalDateTime now = LocalDateTime.now();
+        List<Hotel> hotels = hotelService.hotels();
+        Map<Hotel, Map<Room, List<Reservation>>> reservations = new HashMap<>(hotels.size());
+        for (Hotel hotel : hotels)
+            reservations.put(hotel, reservationService.reservations(hotel.getId(), now, now.plusMonths(1)));
+        model.addAttribute("reservations", reservations);
         return "management/reservations";
     }
 
@@ -55,10 +69,10 @@ public class ManagementController {
 
     @GetMapping({"/hotels/add", "/hotels/{id}/edit"})
     public String editHotel(Model model, @PathVariable(required = false) Long id) {
-        model.addAttribute("hotel", HotelDto.valueOf(hotelService.hotel(id)));
-
-        if (!model.containsAttribute("hotel"))
+        if (id == null)
             model.addAttribute("hotel", new HotelDto());
+        else
+            model.addAttribute("hotel", HotelDto.valueOf(hotelService.hotel(id)));
 
         return "management/hotel-edit";
     }

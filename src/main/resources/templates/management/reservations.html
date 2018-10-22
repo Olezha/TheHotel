@@ -10,6 +10,7 @@
 <th:block th:include="management/fragments::navbar" th:with="navItem='reservations'"/>
 
 <div class="container mt-3">
+    <th:block th:text="${reservations}"/>
 </div>
 
 <th:block th:include="fragments::js"/>
