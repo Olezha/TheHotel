@@ -43,11 +43,8 @@ public class ManagementController {
     @GetMapping
     public String reservations(Model model) {
         LocalDateTime now = LocalDateTime.now();
-        List<Hotel> hotels = hotelService.hotels();
-        Map<Hotel, Map<Room, List<Reservation>>> reservations = new HashMap<>(hotels.size());
-        for (Hotel hotel : hotels)
-            reservations.put(hotel, reservationService.reservations(hotel.getId(), now, now.plusMonths(1)));
-        model.addAttribute("reservations", reservations);
+        model.addAttribute("reservations", reservationService.reservations(
+                hotelService.first().getId(), now, now.plusMonths(1)));
         return "management/reservations";
     }
 

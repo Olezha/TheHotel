@@ -5,14 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title th:text="#{project.title}"></title>
     <th:block th:include="fragments::css"/>
+    <th:block th:include="management/fragments::css"/>
 </head>
 <body>
 <th:block th:include="management/fragments::navbar" th:with="navItem='reservations'"/>
+
+<div class="container mt-3">
+    <div id="calendar"></div>
+</div>
 
 <div class="container mt-3">
     <th:block th:text="${reservations}"/>
 </div>
 
 <th:block th:include="fragments::js"/>
+<th:block th:include="management/fragments::js"/>
+<script>
+    $(function() {
+        $('#calendar').fullCalendar({
+        })
+    });
+</script>
 </body>
 </html>

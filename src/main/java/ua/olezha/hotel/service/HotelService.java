@@ -19,6 +19,10 @@ public class HotelService {
 
     HotelRepository hotelRepository;
 
+    public Hotel first() {
+        return hotelRepository.findAll().get(0);
+    }
+
     public Hotel hotel(Long id) {
         Optional<Hotel> hotel = hotelRepository.findById(id);
         if (!hotel.isPresent()) throw new RuntimeException("Hotel is absent");
