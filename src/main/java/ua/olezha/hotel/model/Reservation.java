@@ -2,8 +2,10 @@ package ua.olezha.hotel.model;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -34,10 +36,15 @@ public class Reservation {
     @ManyToOne
     User user;
 
+    @NotNull
     @ManyToOne
     Room room;
 
-    LocalDateTime checkIn, checkOut;
+    @NotNull
+    LocalDateTime checkIn;
+
+    @NonNull
+    LocalDateTime  checkOut;
 
     @Builder.Default
     LocalDateTime created = LocalDateTime.now();
