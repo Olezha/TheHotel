@@ -34,18 +34,11 @@ public class ReservationService {
         this.roomRepository = roomRepository;
     }
 
-    public Map<Room, List<Reservation>> reservations(Long hotelId,
+    public List<Reservation> reservations(Long hotelId,
                                                      LocalDateTime from, LocalDateTime to) {
-        Map<Room, List<Reservation>> reservations = new HashMap<>();
-        for (Reservation reservation : reservationRepository
+        return reservationRepository
                 .findAllByRoom_Hotel_IdAndCheckOutIsAfterAndCheckInIsBeforeAndUserIsNotNullOrCreatedIsAfter(
-                        hotelId, from, to, LocalDateTime.now().minusMinutes(preReservationDurationMinute))) {
-            List<Reservation> reservationList =
-                    reservations.getOrDefault(reservation.getRoom(), new ArrayList<>());
-            reservationList.add(reservation);
-            reservations.put(reservation.getRoom(), reservationList);
-        }
-        return reservations;
+                        hotelId, from, to, LocalDateTime.now().minusMinutes(preReservationDurationMinute));
     }
 
     public List<Room> availableRooms(Long hotelId,

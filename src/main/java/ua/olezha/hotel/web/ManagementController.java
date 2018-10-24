@@ -43,8 +43,10 @@ public class ManagementController {
     @GetMapping
     public String reservations(Model model) {
         LocalDateTime now = LocalDateTime.now();
+        Long hotelId = hotelService.first().getId();
+        model.addAttribute("rooms", roomRepository.findAllByHotel_Id(hotelId));
         model.addAttribute("reservations", reservationService.reservations(
-                hotelService.first().getId(), now, now.plusMonths(1)));
+                hotelId, now, now.plusMonths(2)));
         return "management/reservations";
     }
 

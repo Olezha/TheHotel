@@ -14,15 +14,39 @@
     <div id="calendar"></div>
 </div>
 
-<div class="container mt-3">
-    <th:block th:text="${reservations}"/>
-</div>
-
 <th:block th:include="fragments::js"/>
 <th:block th:include="management/fragments::js"/>
-<script>
+<script th:inline="javascript">
+    var rooms = [[${rooms}]];
+    var resources = [];
+    rooms.forEach(function (room) {
+        var resource = [];
+        resource['id'] = room.id;
+        resource['title'] = room.number;
+        resources.push(resource);
+    });
+    var reservations = [[${reservations}]];
+    var events = [];
+    reservations.forEach(function (reservation) {
+        var event = [];
+        event.id = reservation.id;
+        event.resourceId = reservation.room.id;
+        event.start = reservation.checkIn;
+        event.end = reservation.checkOut;
+        event.title = reservation.user.fullName;
+        event.url = '/management?r='+reservation.id;
+        events.push(event);
+    });
     $(function() {
         $('#calendar').fullCalendar({
+            locale: 'uk',
+            defaultView: 'timelineMonth',
+            slotDuration: '12:00:00',
+            resourceLabelText: 'R №',
+            resourceAreaWidth: '15%',
+            resources: resources,
+            events: events,
+            schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
         })
     });
 </script>

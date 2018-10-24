@@ -1,5 +1,6 @@
 package ua.olezha.hotel.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -38,6 +39,7 @@ public class Hotel {
     @ElementCollection
     List<String> photos;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "hotel")
     List<Room> rooms;
 }
