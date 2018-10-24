@@ -92,9 +92,12 @@ public class HomeController {
 
     @PostMapping("/hotel/{hotelId}/room/{roomId}/reserve")
     public String reservation(@PathVariable Long roomId, @ModelAttribute AvailabilityFilterDto filter, Model model) {
+        if (filter.isSameDay())
+            throw new RuntimeException("SameDay reservation");
+
         Optional<Room> room = roomRepository.findById(roomId);
         if (!room.isPresent())
-            throw new RuntimeException();
+            throw new RuntimeException("Room isAbsent");
 
         Reservation reservation = reservationService.preReserve(room.get(),
                 filter.getCheckIn(checkInHour, checkInMinute),
@@ -112,7 +115,7 @@ public class HomeController {
 
         Optional<Reservation> reserveOptional = reservationRepository.findById(reservation.getId());
         if (!reserveOptional.isPresent())
-            throw new RuntimeException();
+            throw new RuntimeException("Reservation isAbsent");
 
         User user = new User();
         user.setFullName(reservation.getUserFullName());
@@ -144,6 +147,11 @@ class AvailabilityFilterDto {
     String checkInCheckOut;
 
     Integer persons;
+
+    boolean isSameDay() {
+        String[] inOut = checkInCheckOut.split(" - ");
+        return inOut[0].equals(inOut[1]);
+    }
 
     LocalDateTime getCheckIn(int checkInHour, int checkInMinute) {
         return parseDate(checkInCheckOut.split(" - ")[0])

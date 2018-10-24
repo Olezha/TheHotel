@@ -33,11 +33,12 @@
         event.resourceId = reservation.room.id;
         event.start = reservation.checkIn;
         event.end = reservation.checkOut;
-        event.title = reservation.user.fullName;
-        event.url = '/management?r='+reservation.id;
+        if (reservation.user !== null)
+            event.title = reservation.user.fullName;
+        event.url = '/management/reservation/' + reservation.id;
         events.push(event);
     });
-    $(function() {
+    $(function () {
         $('#calendar').fullCalendar({
             locale: 'uk',
             defaultView: 'timelineMonth',

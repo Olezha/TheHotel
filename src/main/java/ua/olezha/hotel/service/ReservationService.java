@@ -6,17 +6,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ua.olezha.hotel.model.Reservation;
 import ua.olezha.hotel.model.Room;
-import ua.olezha.hotel.model.User;
 import ua.olezha.hotel.repository.ReservationRepository;
 import ua.olezha.hotel.repository.RoomRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)

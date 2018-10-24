@@ -25,7 +25,7 @@ public class HotelService {
 
     public Hotel hotel(Long id) {
         Optional<Hotel> hotel = hotelRepository.findById(id);
-        if (!hotel.isPresent()) throw new RuntimeException("Hotel is absent");
+        if (!hotel.isPresent()) throw new RuntimeException("Hotel isAbsent");
         return hotel.get();
     }
 
@@ -33,7 +33,7 @@ public class HotelService {
         return hotelRepository.findAll();
     }
 
-    public Hotel save(Hotel hotel) {
-        return hotelRepository.save(hotel);
+    public void save(Hotel hotel) {
+        hotelRepository.save(hotel);
     }
 }

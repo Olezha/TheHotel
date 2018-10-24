@@ -9,7 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.olezha.hotel.model.GeoPoint;
 import ua.olezha.hotel.model.Hotel;
-import ua.olezha.hotel.model.Reservation;
 import ua.olezha.hotel.model.Room;
 import ua.olezha.hotel.repository.GeoPointRepository;
 import ua.olezha.hotel.repository.RoomRepository;
@@ -21,9 +20,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Controller
@@ -60,10 +56,6 @@ public class ManagementController {
         model.addAttribute("hotelId", hotelId);
         model.addAttribute("rooms", roomRepository.findAllByHotel_Id(hotelId));
         return "management/rooms";
-    }
-
-    @GetMapping("/users")
-    public void users() {
     }
 
     @GetMapping({"/hotels/add", "/hotels/{id}/edit"})

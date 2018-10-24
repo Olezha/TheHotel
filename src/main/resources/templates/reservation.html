@@ -17,8 +17,8 @@
     Total cost: <span th:text="${reservation.totalCost}"></span>.
 </div>
 
-<div class="container mt-3">
-    <form th:action="@{/reservation/confirm}" th:object="${reservation}" method="post">
+<div class="container mt-3" style="position: relative;">
+    <form th:action="@{/reservation/confirm}" th:object="${reservation}" method="post" class="clearfix">
         <input th:field="*{id}" type="hidden"/>
         <input th:field="*{roomNumber}" type="hidden"/>
         <input th:field="*{checkIn}" type="hidden"/>
@@ -48,10 +48,11 @@
             <small th:if="${#fields.hasErrors('guestRemark')}" th:errors="*{guestRemark}"
                    class="form-text text-muted">GuestRemark Err</small>
         </div>
-        <button type="submit" class="btn btn-primary">Confirm</button>
+        <button type="submit" class="btn btn-primary float-right">Confirm</button>
     </form>
 
-    <form th:action="@{/reservation/reject}" th:object="${reservation}" method="post" style="text-align: right;">
+    <form th:action="@{/reservation/reject}" th:object="${reservation}" method="post"
+          style="position: absolute; bottom: 0;">
         <input th:field="*{id}" type="hidden"/>
         <button type="submit" class="btn btn-primary">Reject</button>
     </form>
