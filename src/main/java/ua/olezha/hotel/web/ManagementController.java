@@ -9,8 +9,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.olezha.hotel.model.GeoPoint;
 import ua.olezha.hotel.model.Hotel;
+import ua.olezha.hotel.model.Reservation;
 import ua.olezha.hotel.model.Room;
 import ua.olezha.hotel.repository.GeoPointRepository;
+import ua.olezha.hotel.repository.ReservationRepository;
 import ua.olezha.hotel.repository.RoomRepository;
 import ua.olezha.hotel.service.HotelService;
 import ua.olezha.hotel.service.ReservationService;
@@ -20,6 +22,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -33,6 +36,8 @@ public class ManagementController {
     RoomRepository roomRepository;
 
     GeoPointRepository geoPointRepository;
+
+    ReservationRepository reservationRepository;
 
     ReservationService reservationService;
 
@@ -108,6 +113,19 @@ public class ManagementController {
         roomRepository.save(room);
 
         return "redirect:/management/hotel/" + hotelId + "/rooms";
+    }
+
+    @GetMapping("/reservation/{id}")
+    public String reservation(Model model, @PathVariable Long id) {
+        Optional<Reservation> reservation = reservationRepository.findById(id);
+        if (!reservation.isPresent())
+            throw new RuntimeException("Reservation isAbsent");
+
+        if (reservation.get().getUser() == null)
+            throw new RuntimeException("Reservation isPreReservation");
+
+        model.addAttribute("reservation", reservation.get());
+        return "management/reservation";
     }
 }
 

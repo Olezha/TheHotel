@@ -1,0 +1,30 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title th:text="#{project.title}"></title>
+    <th:block th:include="fragments::css"/>
+    <th:block th:include="management/fragments::css"/>
+</head>
+<body>
+<th:block th:include="management/fragments::navbar"/>
+
+<div class="container">
+    <h3>
+        <span th:text="${reservation.room.number}"></span>
+        <br/>
+        <span th:text="${reservation.checkIn}"></span>
+        -
+        <span th:text="${reservation.checkOut}"></span>
+    </h3>
+    <p th:text="${reservation.user.fullName}"></p>
+    <p>Total: <span th:text="${reservation.totalCost}"></span></p>
+    <p th:if="${not #strings.isEmpty(reservation.guestRemark)}">Guest: <span
+            th:text="${reservation.guestRemark}"></span></p>
+</div>
+
+<th:block th:include="fragments::js"/>
+<th:block th:include="management/fragments::js"/>
+</body>
+</html>
