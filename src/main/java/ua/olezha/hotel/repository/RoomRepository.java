@@ -7,6 +7,10 @@ import ua.olezha.hotel.model.Room;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * @author Oleh Shklyar
+ */
+
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
     List<Room> findAllByHotel_Id(Long hotelId);

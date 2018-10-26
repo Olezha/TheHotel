@@ -7,10 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ua.olezha.hotel.model.GeoPoint;
-import ua.olezha.hotel.model.Hotel;
-import ua.olezha.hotel.model.Reservation;
-import ua.olezha.hotel.model.Room;
+import ua.olezha.hotel.model.*;
 import ua.olezha.hotel.repository.GeoPointRepository;
 import ua.olezha.hotel.repository.ReservationRepository;
 import ua.olezha.hotel.repository.RoomRepository;
@@ -22,7 +19,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+
+/**
+ * @author Oleh Shklyar
+ */
 
 @Slf4j
 @Controller
@@ -74,12 +76,18 @@ public class ManagementController {
     }
 
     @PostMapping("/hotels")
-    public String editHotel(@Valid @ModelAttribute("hotel") HotelDto hotelDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
+    public String editHotel(Model model,
+                            @Valid @ModelAttribute("hotel") HotelDto hotelDto, BindingResult bindingResult,
+                            @RequestParam(name = "image", required = false) List<String> images) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("images", images);
             return "management/hotel-edit";
+        }
 
         Hotel hotel = hotelDto.build();
         geoPointRepository.save(hotel.getGeoPoint());
+        if (images != null)
+            hotel.setPhotos(images);
         hotelService.save(hotel);
 
         return "redirect:/management/hotels";

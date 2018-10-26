@@ -26,19 +26,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
+/**
+ * @author Oleh Shklyar
+ */
+
 @Controller
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class HomeController {
-
-    final HotelRepository hotelRepository;
-
-    final RoomRepository roomRepository;
-
-    final ReservationRepository reservationRepository;
-
-    final ReservationService reservationService;
-
-    final UserRepository userRepository;
 
     @Value("${hotel.checkInHour}")
     int checkInHour;
@@ -51,6 +45,16 @@ public class HomeController {
 
     @Value("${hotel.checkOutMinute}")
     int checkOutMinute;
+
+    final HotelRepository hotelRepository;
+
+    final RoomRepository roomRepository;
+
+    final ReservationRepository reservationRepository;
+
+    final ReservationService reservationService;
+
+    final UserRepository userRepository;
 
     public HomeController(HotelRepository hotelRepository,
                           RoomRepository roomRepository,

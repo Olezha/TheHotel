@@ -14,6 +14,10 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+/**
+ * @author Oleh Shklyar
+ */
+
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ReservationService {

@@ -12,6 +12,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author Oleh Shklyar
+ */
+
 @SpringBootApplication
 public class TheHotelApplication {
 
