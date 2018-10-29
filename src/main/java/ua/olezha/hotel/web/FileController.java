@@ -54,7 +54,7 @@ public class FileController {
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<?> handleStorageFileNotFound(RuntimeException e) {
+    public ResponseEntity<?> handleStorageFileNotFound() {
         return ResponseEntity.notFound().build();
     }
 }

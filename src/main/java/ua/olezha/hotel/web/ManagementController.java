@@ -19,6 +19,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,18 +77,12 @@ public class ManagementController {
     }
 
     @PostMapping("/hotels")
-    public String editHotel(Model model,
-                            @Valid @ModelAttribute("hotel") HotelDto hotelDto, BindingResult bindingResult,
-                            @RequestParam(name = "image", required = false) List<String> images) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("images", images);
+    public String editHotel(@Valid @ModelAttribute("hotel") HotelDto hotelDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
             return "management/hotel-edit";
-        }
 
         Hotel hotel = hotelDto.build();
         geoPointRepository.save(hotel.getGeoPoint());
-        if (images != null)
-            hotel.setPhotos(images);
         hotelService.save(hotel);
 
         return "redirect:/management/hotels";
@@ -159,6 +154,8 @@ class HotelDto {
     @NotEmpty
     String geoLatitude;
 
+    List<String> photos = new ArrayList<>();
+
     static HotelDto valueOf(Hotel hotel) {
         HotelDto hotelDto = new HotelDto();
         hotelDto.id = hotel.getId();
@@ -170,6 +167,8 @@ class HotelDto {
             hotelDto.geoLongitude = hotel.getGeoPoint().getLongitude().toString();
             hotelDto.geoLatitude = hotel.getGeoPoint().getLatitude().toString();
         }
+        if (hotel.getPhotos() != null)
+            hotelDto.photos = hotel.getPhotos();
         return hotelDto;
     }
 
@@ -186,6 +185,7 @@ class HotelDto {
                                 MathUtils.cleanNumber(geoLatitude)))
                         .build())
                 .description(description)
+                .photos(photos)
                 .build();
     }
 }
@@ -207,6 +207,8 @@ class RoomDto {
     @NonNull
     BigDecimal price;
 
+    List<String> photos = new ArrayList<>();
+
     static RoomDto valueOf(Room room) {
         RoomDto roomDto = new RoomDto();
         roomDto.id = room.getId();
@@ -214,6 +216,8 @@ class RoomDto {
         roomDto.description = room.getDescription();
         roomDto.persons = room.getPersons();
         roomDto.price = room.getPrice();
+        if (room.getPhotos() != null)
+            roomDto.photos = room.getPhotos();
         return roomDto;
     }
 
@@ -224,6 +228,7 @@ class RoomDto {
                 .description(description)
                 .persons(persons)
                 .price(price)
+                .photos(photos)
                 .build();
     }
 }

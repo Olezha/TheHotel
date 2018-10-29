@@ -1,6 +1,7 @@
 .idea
 *.iml
 /target
+data/
 *.db
 *.class
 *.log

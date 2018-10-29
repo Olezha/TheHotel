@@ -6,7 +6,6 @@
     <title th:text="#{project.title}"></title>
     <link th:href="@{/ext/dropzone/5.2.0/dropzone.css}" rel="stylesheet"/>
     <th:block th:include="fragments::css"/>
-    <style>.removeImage {position: absolute; top: 0; right: 0; padding: 5px; cursor: pointer;}</style>
 </head>
 <body>
 <th:block th:include="management/fragments::navbar" th:with="navItem='hotel-edit'"/>
@@ -50,52 +49,53 @@
             </small>
         </div>
         <div class="form-group">
-            <div th:if="${#fields.hasErrors('images')}" th:errors="*{images}" style="color: red;">Err</div>
-            <div id="images" style="margin-bottom: 20px;">
-                <div th:each="image : ${images}" style="float: left; position: relative; margin: 10px;">
-                    <img src="" th:src="'/files/'+${image.uuid}"/>
-                    <input type="hidden" name="image" th:value="${image.uuid}"/>
-                    <div class="removeImage" th:attr="data-uuid=${image.uuid}"><i class="fa fa-times-circle"></i></div>
+            <div th:if="${#fields.hasErrors('photos')}" th:errors="*{photos}" style="color: red;">Err</div>
+            <div id="photos" style="margin-bottom: 20px;">
+                <div th:each="photo : ${hotel.photos}" style="float: left; position: relative; margin: 10px;">
+                    <img src="" th:src="'/files/'+${photo}" style="height: 75px;"/>
+                    <input type="hidden" name="photos" th:value="${photo}"/>
+                    <div class="removeImage" th:attr="data-uuid=${photo}"><i class="fa fa-times-circle"></i></div>
                 </div>
             </div>
             <div style="clear: both;"></div>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Save</button>
     </form>
 </div>
 
 <div class="container mt-3">
-    <form id="dropzone-form" th:action="@{/management/files}"></form>
+    <form id="images-form" th:action="@{/management/files}" class="dropzone"></form>
 </div>
 
 <th:block th:include="fragments::js"/>
 <script th:src="@{/ext/dropzone/5.2.0/dropzone.js}"></script>
-<script type="text/javascript">
+<script th:inline="javascript">
     /*<![CDATA[*/
-    $(function () {
-        var token = $("input[name='_csrf']").val();
-        var header = "X-CSRF-TOKEN";
-        $(document).ajaxSend(function (e, xhr, options) {
-            xhr.setRequestHeader(header, token);
-        });
-    });
-
-    Dropzone.options.dropzoneForm = {
+    Dropzone.options.imagesForm = {
         acceptedFiles: 'image/jpeg,image/png',
-        maxFilesize: 32,
-        success: function (file, response) {
+        maxFilesize: 16,
+        success: function(file, response) {
             var fileMeta = response[0];
-            $("#images").append('<div style="float: left; position: relative; margin: 10px;">' +
+            $("#photos").append('<div style="float: left; position: relative; margin: 10px;">' +
                 '<img src="/files/' + fileMeta.uuid + '" style="height: 75px;"/>' +
-                '<input type="hidden" name="image" value="' + fileMeta.uuid + '"/>' +
+                '<input type="hidden" name="photos" value="' + fileMeta.uuid + '"/>' +
                 '<div  class="removeImage" data-uuid="' + fileMeta.uuid + '">' +
                 '<i class="fa fa-times-circle"></i></div></div>');
             this.removeFile(file);
         },
-        error: function (file, response) {
+        error: function(file, response) {
             this.removeFile(file);
+        },
+        headers: {
+            "X-CSRF-TOKEN": /*[[${_csrf.token}]]*/ ''
         }
     };
+
+    $(document).on('click', '.removeImage', function () {
+        $(this).parent().fadeOut("normal", function() {
+            $(this).remove();
+        });
+    });
     /*]]>*/
 </script>
 </body>

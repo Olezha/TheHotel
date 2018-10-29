@@ -4,6 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title th:text="#{project.title}"></title>
+    <link th:href="@{/ext/dropzone/5.2.0/dropzone.css}" rel="stylesheet"/>
     <th:block th:include="fragments::css"/>
 </head>
 <body>
@@ -32,10 +33,55 @@
             <small th:if="${#fields.hasErrors('price')}" th:errors="*{price}"
                    class="form-text text-muted">Price Err</small>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="form-group">
+            <div th:if="${#fields.hasErrors('photos')}" th:errors="*{photos}" style="color: red;">Err</div>
+            <div id="photos" style="margin-bottom: 20px;">
+                <div th:each="photo : ${room.photos}" style="float: left; position: relative; margin: 10px;">
+                    <img src="" th:src="'/files/'+${photo}" style="height: 75px;"/>
+                    <input type="hidden" name="photos" th:value="${photo}"/>
+                    <div class="removeImage" th:attr="data-uuid=${photo}"><i class="fa fa-times-circle"></i></div>
+                </div>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
     </form>
 </div>
 
+<div class="container mt-3">
+    <form id="images-form" th:action="@{/management/files}" class="dropzone"></form>
+</div>
+
 <th:block th:include="fragments::js"/>
+<script th:src="@{/ext/dropzone/5.2.0/dropzone.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    Dropzone.options.imagesForm = {
+        acceptedFiles: 'image/jpeg,image/png',
+        maxFilesize: 16,
+        success: function(file, response) {
+            var fileMeta = response[0];
+            $("#photos").append('<div style="float: left; position: relative; margin: 10px;">' +
+                '<img src="/files/' + fileMeta.uuid + '" style="height: 75px;"/>' +
+                '<input type="hidden" name="photos" value="' + fileMeta.uuid + '"/>' +
+                '<div  class="removeImage" data-uuid="' + fileMeta.uuid + '">' +
+                '<i class="fa fa-times-circle"></i></div></div>');
+            this.removeFile(file);
+        },
+        error: function(file, response) {
+            this.removeFile(file);
+        },
+        headers: {
+            "X-CSRF-TOKEN": /*[[${_csrf.token}]]*/ ''
+        }
+    };
+
+    $(document).on('click', '.removeImage', function () {
+        $(this).parent().fadeOut("normal", function() {
+            $(this).remove();
+        });
+    });
+    /*]]>*/
+</script>
 </body>
 </html>
