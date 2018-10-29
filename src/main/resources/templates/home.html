@@ -4,6 +4,8 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title th:text="#{project.title}"></title>
+    <link th:href="@{/ext/photoswipe/4.1.2/dist/photoswipe.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/ext/photoswipe/4.1.2/dist/default-skin/default-skin.css}" rel="stylesheet" type="text/css"/>
     <th:block th:include="fragments::css"/>
 </head>
 <body>
@@ -15,6 +17,44 @@
         <div class="row">
             <div class="col">
                 <h2 th:text="${hotel.name}"></h2>
+
+                <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="pswp__bg"></div>
+                    <div class="pswp__scroll-wrap">
+                        <div class="pswp__container">
+                            <div class="pswp__item"></div>
+                            <div class="pswp__item"></div>
+                            <div class="pswp__item"></div>
+                        </div>
+                        <div class="pswp__ui pswp__ui--hidden">
+                            <div class="pswp__top-bar">
+                                <div class="pswp__counter"></div>
+                                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                                <button class="pswp__button pswp__button--share" title="Share"></button>
+                                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                                <div class="pswp__preloader">
+                                    <div class="pswp__preloader__icn">
+                                        <div class="pswp__preloader__cut">
+                                            <div class="pswp__preloader__donut"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                                <div class="pswp__share-tooltip"></div>
+                            </div>
+                            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+                            </button>
+                            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+                            </button>
+                            <div class="pswp__caption">
+                                <div class="pswp__caption__center"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="col">
                 <p th:text="${hotel.description}"></p>
@@ -25,5 +65,24 @@
 </div>
 
 <th:block th:include="fragments::js"/>
+<script th:src="@{/ext/photoswipe/4.1.2/dist/photoswipe.min.js}"></script>
+<script th:src="@{/ext/photoswipe/4.1.2/dist/photoswipe-ui-default.min.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var photos = [[${hotels.get(0).photos}]];
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    var items = [];
+    photos.forEach(function (photo) {
+        var item = [];
+        item['src'] = '/files/'+photo;
+        item['w'] = 600;
+        item['h'] = 400;
+        items.push(item);
+    });
+    var options = {};
+    var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+    gallery.init();
+    /*]]>*/
+</script>
 </body>
 </html>
