@@ -19,6 +19,7 @@ import ua.olezha.hotel.repository.UserRepository;
 import ua.olezha.hotel.service.ReservationService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -183,6 +184,8 @@ class ReservationDto {
     @NotEmpty
     String userFullName;
 
+    @Email
+    @NotEmpty
     String userEmail;
 
     @NotEmpty
