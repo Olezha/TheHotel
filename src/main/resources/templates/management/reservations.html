@@ -10,7 +10,7 @@
 <body>
 <th:block th:include="management/fragments::navbar" th:with="navItem='reservations'"/>
 
-<div class="container mt-3">
+<div class="container-fluid mt-3">
     <div id="calendar"></div>
 </div>
 
@@ -45,7 +45,7 @@
             slotDuration: '12:00:00',
             height: 'auto',
             resourceLabelText: 'R №',
-            resourceAreaWidth: '15%',
+            resourceAreaWidth: '12%',
             resources: resources,
             events: events,
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
