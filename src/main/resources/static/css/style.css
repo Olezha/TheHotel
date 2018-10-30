@@ -10,3 +10,8 @@
     padding: 0 5px;
     cursor: pointer;
 }
+
+.image-gallery img {
+    width: 100%;
+    position: absolute;
+}
