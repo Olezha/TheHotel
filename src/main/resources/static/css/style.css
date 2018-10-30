@@ -13,5 +13,12 @@
 
 .image-gallery img {
     width: 100%;
-    position: absolute;
+}
+
+.image-gallery figure:not(:last-child) img {
+    display: none;
+}
+
+.image-gallery figure {
+    margin: 0;
 }

@@ -10,16 +10,40 @@
 </th:block>
 
 <th:block th:fragment="room">
-    <h3>No. <th:block th:text="${room.number}"/></h3>
-    <div>Persons: <th:block th:text="${room.persons}"/></div>
-    <div><th:block th:text="${room.description}"/></div>
-    <div>Price: <th:block th:text="${room.price}"/></div>
+    <div class="row">
+        <div class="col-3">
+            <div class="image-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+                <figure th:each="photo:${room.photos}"
+                        itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                    <a th:href="@{'/files/'+${photo}}" itemprop="contentUrl" data-size="600x400">
+                        <img th:src="@{'/files/'+${photo}}" th:alt="${room.number}+' photo'" itemprop="thumbnail"
+                             src=""/>
+                    </a>
+                </figure>
+            </div>
+        </div>
+        <div class="col">
+            <h3>No.
+                <th:block th:text="${room.number}"/>
+            </h3>
+            <div>Persons:
+                <th:block th:text="${room.persons}"/>
+            </div>
+            <div>
+                <th:block th:text="${room.description}"/>
+            </div>
+            <div>Price:
+                <th:block th:text="${room.price}"/>
+            </div>
+        </div>
+    </div>
 </th:block>
 
 <th:block th:fragment="css">
     <link th:href="@{/ext/bootstrap/4.1.3/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/ext/datatables/1.10.19/css/jquery.dataTables.min.css}" rel="stylesheet" type="text/css"/>
-    <link th:href="@{/ext/bootstrap-daterangepicker/2.1.19/css/bootstrap-daterangepicker.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/ext/bootstrap-daterangepicker/2.1.19/css/bootstrap-daterangepicker.css}" rel="stylesheet"
+          type="text/css"/>
     <link th:href="@{/ext/font-awesome/5.4.1/css/all.min.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css"/>
 </th:block>
