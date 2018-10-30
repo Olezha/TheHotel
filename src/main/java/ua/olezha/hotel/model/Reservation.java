@@ -49,6 +49,8 @@ public class Reservation {
     @Builder.Default
     LocalDateTime created = LocalDateTime.now();
 
+    BigDecimal price;
+
     BigDecimal totalCost;
 
     @Builder.Default

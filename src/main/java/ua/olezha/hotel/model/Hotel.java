@@ -42,4 +42,10 @@ public class Hotel {
     @JsonIgnore
     @OneToMany(mappedBy = "hotel")
     List<Room> rooms;
+
+    @ElementCollection
+    List<String> phones;
+
+    @Lob
+    String rules;
 }
