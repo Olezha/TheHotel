@@ -17,11 +17,11 @@
         <form th:action="@{__${#httpServletRequest.requestURI}__}" th:object="${filter}" method="post">
             <div class="form-row align-items-center">
                 <div class="col-auto">
-                    <label for="check-in-check-out">Check in - Check out</label>
+                    <label for="check-in-check-out" th:text="#{check-in-check-out}">Check in - Check out</label>
                     <input th:field="*{checkInCheckOut}" type="text" class="form-control mb-2" id="check-in-check-out">
                 </div>
                 <div class="col-auto">
-                    <label for="persons">Persons</label>
+                    <label for="persons" th:text="#{persons}">Persons</label>
                     <select th:field="*{persons}" class="form-control mb-2" id="persons">
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -34,26 +34,30 @@
                     </select>
                 </div>
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-primary mb-2 mt-sm-4">Search</button>
+                    <button th:text="#{check-availability}" type="submit" class="btn btn-primary mb-2 mt-sm-4">
+                        Check availability
+                    </button>
                 </div>
             </div>
         </form>
     </div>
 
-    <div class="row mt-3" th:each="room:${allRooms}">
+    <div th:each="room:${allRooms}" class="row mt-3">
         <div th:include="fragments::room" th:with="room=${room}" class="col"></div>
     </div>
-    <div class="row mt-3" th:each="room:${availableRooms}">
+    <div th:each="room:${availableRooms}" class="row mt-3">
         <div th:include="fragments::room" th:with="room=${room}" class="col-10"></div>
         <div class="col">
             <form th:action="@{'/hotel/'+${hotelId}+'/room/'+${room.id}+'/reserve'}" th:object="${filter}"
                   method="post">
                 <input th:field="*{checkInCheckOut}" type="hidden"/>
                 <input th:field="*{persons}" type="hidden"/>
-                <button type="submit" class="btn btn-primary mb-2 mt-sm-4">Reserve</button>
+                <button th:text="#{reserve}" type="submit" class="btn btn-primary mb-2 mt-sm-4">Reserve</button>
             </form>
         </div>
     </div>
+    <div th:if="${allRooms == null and #lists.isEmpty(availableRooms)}"
+         th:text="#{no-rooms-available}" class="row mt-3">No rooms available</div>
 </div>
 
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
@@ -97,47 +101,7 @@
 <script th:src="@{/ext/photoswipe/4.1.2/dist/photoswipe.min.js}"></script>
 <script th:src="@{/ext/photoswipe/4.1.2/dist/photoswipe-ui-default.min.js}"></script>
 <script th:src="@{/js/jquery.photoswipe.js}"></script>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    $('.image-gallery').photoswipe({
-        bgOpacity: 0.7,
-        loop: true
-    });
-
-    $('#check-in-check-out').daterangepicker({
-        "minDate": moment(),
-        "locale": {
-            "format": "DD/MM/YYYY",
-            "separator": " - ",
-            "applyLabel": /*[[#{apply}]]*/ "Apply",
-            "cancelLabel": /*[[#{cancel}]]*/ "Cancel",
-            "daysOfWeek": [
-                /*[[#{Su}]]*/ "Su",
-                /*[[#{Mo}]]*/ "Mo",
-                /*[[#{Tu}]]*/ "Tu",
-                /*[[#{We}]]*/ "We",
-                /*[[#{Th}]]*/ "Th",
-                /*[[#{Fr}]]*/ "Fr",
-                /*[[#{Sa}]]*/ "Sa"
-            ],
-            "monthNames": [
-                /*[[#{January}]]*/ "January",
-                /*[[#{February}]]*/ "February",
-                /*[[#{March}]]*/ "March",
-                /*[[#{April}]]*/ "April",
-                /*[[#{May}]]*/ "May",
-                /*[[#{June}]]*/ "June",
-                /*[[#{July}]]*/ "July",
-                /*[[#{August}]]*/ "August",
-                /*[[#{September}]]*/ "September",
-                /*[[#{October}]]*/ "October",
-                /*[[#{November}]]*/ "November",
-                /*[[#{December}]]*/ "December"
-            ],
-            "firstDay": 1
-        }
-    });
-    /*]]>*/
-</script>
+<th:block th:include="fragments::image-gallery-photoswipe"/>
+<th:block th:include="fragments::check-in-check-out-daterangepicker"/>
 </body>
 </html>

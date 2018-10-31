@@ -72,6 +72,7 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("hotels", hotelRepository.findAll());
+        model.addAttribute("filter", new AvailabilityFilterDto());
         return "home";
     }
 
@@ -115,8 +116,10 @@ public class HomeController {
     @PostMapping("/reservation/confirm")
     public String confirmReservation(Model model,
                                      @Valid @ModelAttribute ReservationDto reservation, BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("reservation", reservation);
             return "reservation";
+        }
 
         Optional<Reservation> reserveOptional = reservationRepository.findById(reservation.getId());
         if (!reserveOptional.isPresent())

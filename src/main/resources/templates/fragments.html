@@ -38,20 +38,69 @@
             </div>
         </div>
         <div class="col">
-            <h3>No.
-                <th:block th:text="${room.number}"/>
-            </h3>
-            <div>Persons:
+            <h3><th:block th:text="${room.number}"/></h3>
+            <div><span th:text="#{persons}">Persons</span>:
                 <th:block th:text="${room.persons}"/>
             </div>
             <div>
                 <th:block th:text="${room.description}"/>
             </div>
-            <div>Price:
+            <div><span th:text="#{price}">Price</span>:
                 <th:block th:text="${room.price}"/>
             </div>
         </div>
     </div>
+</th:block>
+
+<th:block th:fragment="image-gallery-photoswipe">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        $('.image-gallery').photoswipe({
+            bgOpacity: 0.7,
+            loop: true
+        });
+        /*]]>*/
+    </script>
+</th:block>
+
+<th:block th:fragment="check-in-check-out-daterangepicker">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        $('#check-in-check-out').daterangepicker({
+            "minDate": moment(),
+            "locale": {
+                "format": "DD/MM/YYYY",
+                "separator": " - ",
+                "applyLabel": /*[[#{apply}]]*/ "Apply",
+                "cancelLabel": /*[[#{cancel}]]*/ "Cancel",
+                "daysOfWeek": [
+                    /*[[#{Su}]]*/ "Su",
+                    /*[[#{Mo}]]*/ "Mo",
+                    /*[[#{Tu}]]*/ "Tu",
+                    /*[[#{We}]]*/ "We",
+                    /*[[#{Th}]]*/ "Th",
+                    /*[[#{Fr}]]*/ "Fr",
+                    /*[[#{Sa}]]*/ "Sa"
+                ],
+                "monthNames": [
+                    /*[[#{Jan}]]*/ "January",
+                    /*[[#{Feb}]]*/ "February",
+                    /*[[#{Mar}]]*/ "March",
+                    /*[[#{Apr}]]*/ "April",
+                    /*[[#{May}]]*/ "May",
+                    /*[[#{June}]]*/ "June",
+                    /*[[#{July}]]*/ "July",
+                    /*[[#{Aug}]]*/ "August",
+                    /*[[#{Sept}]]*/ "September",
+                    /*[[#{Oct}]]*/ "October",
+                    /*[[#{Nov}]]*/ "November",
+                    /*[[#{Dec}]]*/ "December"
+                ],
+                "firstDay": 1
+            }
+        });
+        /*]]>*/
+    </script>
 </th:block>
 
 <th:block th:fragment="css">

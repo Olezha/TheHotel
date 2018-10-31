@@ -13,23 +13,61 @@
 <th:block th:include="fragments::header"/>
 
 <div class="container">
-    <div th:each="hotel:${hotels}" class="mt-3">
+    <div th:each="hotel:${hotels}" class="mt-4">
         <div class="row">
             <div class="col">
                 <h2 th:text="${hotel.name}"></h2>
-
                 <div class="image-gallery" itemscope itemtype="http://schema.org/ImageGallery">
                     <figure th:each="photo:${hotel.photos}"
                             itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
                         <a th:href="@{'/files/'+${photo}}" itemprop="contentUrl" data-size="600x400">
-                            <img th:src="@{'/files/'+${photo}}" th:alt="${hotel.name}+' photo'" itemprop="thumbnail" src=""/>
+                            <img th:src="@{'/files/'+${photo}}" th:alt="${hotel.name}+' photo'" itemprop="thumbnail"
+                                 src=""/>
                         </a>
                     </figure>
                 </div>
             </div>
+            <div class="col" th:text="${hotel.description}"></div>
+        </div>
+        <div class="row mt-3">
             <div class="col">
-                <p th:text="${hotel.description}"></p>
-                <a th:href="@{'/hotel/'+${hotel.id}+'/browse'}" class="btn btn-primary">Browse</a>
+                <div id="availability-filter">
+                    <form th:action="@{/hotel/{id}/browse(id=${hotel.id})}" th:object="${filter}" method="post">
+                        <div class="form-row align-items-center">
+                            <div class="col-auto">
+                                <label for="check-in-check-out" th:text="#{check-in-check-out}">Check in - Check
+                                    out</label>
+                                <input th:field="*{checkInCheckOut}" type="text" class="form-control mb-2"
+                                       id="check-in-check-out">
+                            </div>
+                            <div class="col-auto">
+                                <label for="persons" th:text="#{persons}">Persons</label>
+                                <select th:field="*{persons}" class="form-control mb-2" id="persons">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <button th:text="#{check-availability}" type="submit"
+                                        class="btn btn-primary mb-2 mt-sm-4">
+                                    Check availability
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <div th:attr="data-geo-longitude=${hotel.geoPoint.longitude},data-geo-latitude=${hotel.geoPoint.latitude}"
+                     id="map"></div>
             </div>
         </div>
     </div>
@@ -76,13 +114,16 @@
 <script th:src="@{/ext/photoswipe/4.1.2/dist/photoswipe.min.js}"></script>
 <script th:src="@{/ext/photoswipe/4.1.2/dist/photoswipe-ui-default.min.js}"></script>
 <script th:src="@{/js/jquery.photoswipe.js}"></script>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    $('.image-gallery').photoswipe({
-        bgOpacity: 0.7,
-        loop: true
-    });
-    /*]]>*/
+<th:block th:include="fragments::image-gallery-photoswipe"/>
+<th:block th:include="fragments::check-in-check-out-daterangepicker"/>
+<script>
+    function initMap() {
+        var mapHolder = $('#map');
+        var uluru = {lat: mapHolder.data('geo-latitude'), lng: mapHolder.data('geo-longitude')};
+        var map = new google.maps.Map(document.getElementById('map'), {zoom: 14, center: uluru});
+        var marker = new google.maps.Marker({position: uluru, map: map});
+    }
 </script>
+<script async defer th:src="@{https://maps.googleapis.com/maps/api/js(callback='initMap')}"></script>
 </body>
 </html>

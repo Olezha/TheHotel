@@ -26,3 +26,8 @@ body {
 .image-gallery figure {
     margin: 0;
 }
+
+#map {
+    height: 300px;
+    width: 100%;
+}
