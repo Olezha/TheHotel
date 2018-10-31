@@ -1,13 +1,9 @@
 .idea
 *.iml
 /target
-data/
-*.db
+/data
 *.class
 *.log
 *.jar
-*.war
-*.zip
-*.tar.gz
-*.rar
 hs_err_pid*
+application-*.properties

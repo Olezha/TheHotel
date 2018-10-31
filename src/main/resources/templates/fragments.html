@@ -4,7 +4,7 @@
 
 <th:block th:fragment="header">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a th:href="@{/}" class="navbar-brand" th:text="#{project.title}">The Hôtel</a>
+        <a th:href="@{/}" class="navbar-brand" th:text="#{project.title}">The Hôtel ★</a>
         <span class="navbar-text d-none d-md-block" th:text="#{project.description}">Hotel booking system</span>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +30,7 @@
             <div class="image-gallery" itemscope itemtype="http://schema.org/ImageGallery">
                 <figure th:each="photo:${room.photos}"
                         itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a th:href="@{'/files/'+${photo}}" itemprop="contentUrl" data-size="600x400">
+                    <a th:href="@{'/files/'+${photo}}" itemprop="contentUrl" data-size="1024x768">
                         <img th:src="@{'/files/'+${photo}}" th:alt="${room.number}+' photo'" itemprop="thumbnail"
                              src=""/>
                     </a>

@@ -22,7 +22,8 @@ public class HotelService {
     HotelRepository hotelRepository;
 
     public Hotel first() {
-        return hotelRepository.findAll().get(0);
+        List<Hotel> hotels = hotelRepository.findAll();
+        return hotels.isEmpty() ? null : hotels.get(0);
     }
 
     public Hotel hotel(Long id) {

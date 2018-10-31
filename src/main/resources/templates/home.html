@@ -20,14 +20,14 @@
                 <div class="image-gallery" itemscope itemtype="http://schema.org/ImageGallery">
                     <figure th:each="photo:${hotel.photos}"
                             itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                        <a th:href="@{'/files/'+${photo}}" itemprop="contentUrl" data-size="600x400">
+                        <a th:href="@{'/files/'+${photo}}" itemprop="contentUrl" data-size="1024x768">
                             <img th:src="@{'/files/'+${photo}}" th:alt="${hotel.name}+' photo'" itemprop="thumbnail"
                                  src=""/>
                         </a>
                     </figure>
                 </div>
             </div>
-            <div class="col" th:text="${hotel.description}"></div>
+            <div class="col" th:utext="${hotel.description}"></div>
         </div>
         <div class="row mt-3">
             <div class="col">
