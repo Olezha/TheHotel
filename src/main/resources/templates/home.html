@@ -124,6 +124,6 @@
         var marker = new google.maps.Marker({position: uluru, map: map});
     }
 </script>
-<script async defer th:src="@{https://maps.googleapis.com/maps/api/js(callback='initMap')}"></script>
+<script async defer th:src="@{https://maps.googleapis.com/maps/api/js(key=${@environment.getProperty('google-api-key')},callback='initMap')}"></script>
 </body>
 </html>
