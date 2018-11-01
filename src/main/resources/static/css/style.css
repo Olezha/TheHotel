@@ -1,5 +1,11 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
-    padding-top: 70px;
+    padding-top: 56px;
+    margin-bottom: 60px;
 }
 
 .container-for-centered {
@@ -14,13 +20,13 @@ body {
     transform: translate(-50%, -50%);
 }
 
-.banner {
+.fixed-background {
     overflow: hidden;
     background-size: cover;
     background: no-repeat fixed center;
 }
 
-.banner.a {
+.fixed-background-1 {
     height: 150px;
     background-image: url(../img/michael-lammli-776608-unsplash.jpg);
 }
@@ -45,4 +51,14 @@ body {
 #map {
     height: 300px;
     width: 100%;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #fff;
 }
