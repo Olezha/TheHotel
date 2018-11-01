@@ -5,5 +5,4 @@
 *.class
 *.log
 *.jar
-hs_err_pid*
 application-*.properties
