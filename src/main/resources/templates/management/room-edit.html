@@ -33,6 +33,12 @@
             <small th:if="${#fields.hasErrors('price')}" th:errors="*{price}"
                    class="form-text text-muted">Price Err</small>
         </div>
+
+        <div class="form-group form-check">
+            <input th:field="*{awesome}" type="checkbox" class="form-check-input" id="awesome">
+            <label class="form-check-label" for="awesome">Awesome</label>
+        </div>
+
         <div class="form-group">
             <div th:if="${#fields.hasErrors('photos')}" th:errors="*{photos}" style="color: red;">Err</div>
             <div id="photos" style="margin-bottom: 20px;">

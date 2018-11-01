@@ -212,6 +212,8 @@ class RoomDto {
 
     List<String> photos = new ArrayList<>();
 
+    Boolean awesome;
+
     static RoomDto valueOf(Room room) {
         RoomDto roomDto = new RoomDto();
         roomDto.id = room.getId();
@@ -221,6 +223,7 @@ class RoomDto {
         roomDto.price = room.getPrice();
         if (room.getPhotos() != null)
             roomDto.photos = room.getPhotos();
+        roomDto.awesome = room.getAwesome();
         return roomDto;
     }
 
@@ -232,6 +235,7 @@ class RoomDto {
                 .persons(persons)
                 .price(price)
                 .photos(photos)
+                .awesome(awesome)
                 .build();
     }
 }

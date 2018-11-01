@@ -12,8 +12,19 @@
 
 <th:block th:include="fragments::header"/>
 
-<div class="container">
-    <div th:each="hotel:${hotels}" class="mt-4">
+<div class="container-for-centered">
+    <img th:src="@{/img/gabriel-ghnassia-518-unsplash_cr.jpg}" style="width: 100%;"/>
+    <div class="centered">
+        <h1 class="text-white">A Single Stars Hotel</h1>
+        <p class="text-white">Across the street from the ordinary. Discover a hotel that defines a new dimension of
+            luxury.</p>
+    </div>
+</div>
+
+<div class="banner a"></div>
+
+<div th:each="hotel:${hotels}">
+    <div class="container mt-4">
         <div class="row">
             <div class="col">
                 <h2 th:text="${hotel.name}"></h2>
@@ -27,7 +38,7 @@
                     </figure>
                 </div>
             </div>
-            <div class="col" th:utext="${hotel.description}"></div>
+            <div th:utext="${hotel.description}" class="col"></div>
         </div>
         <div class="row mt-3">
             <div class="col">
@@ -35,8 +46,9 @@
                     <form th:action="@{/hotel/{id}/browse(id=${hotel.id})}" th:object="${filter}" method="post">
                         <div class="form-row align-items-center">
                             <div class="col-auto">
-                                <label for="check-in-check-out" th:text="#{check-in-check-out}">Check in - Check
-                                    out</label>
+                                <label for="check-in-check-out" th:text="#{check-in-check-out}">
+                                    Check in - Check out
+                                </label>
                                 <input th:field="*{checkInCheckOut}" type="text" class="form-control mb-2"
                                        id="check-in-check-out">
                             </div>
@@ -70,8 +82,39 @@
                      id="map"></div>
             </div>
         </div>
+        <div class="row mt-4">
+            <div class="col text-center">
+                <h3>Awesome Rooms</h3>
+                <p>Lorem ipsum dolor amet aesthetic food truck truffaut meh.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div th:each="room:${hotel.rooms}" th:if="${room.awesome}" class="col">
+                <div class="card border-dark mb-4" style="width: 100%;">
+                    <img th:if="${not room.photos.isEmpty()}" th:src="@{'/files/'+${room.photos.get(0)}}"
+                         class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${room.number}">Number</h5>
+                        <div><span th:text="#{persons}">Persons</span>:
+                            <th:block th:text="${room.persons}"/>
+                        </div>
+                        <div>
+                            <th:block th:text="${room.description}"/>
+                        </div>
+                        <div><span th:text="#{price}">Price</span>:
+                            <th:block th:text="${room.price}"/>
+                        </div>
+                        <div class="text-right">
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<th:block th:include="fragments::footer"/>
 
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="pswp__bg"></div>
@@ -124,6 +167,7 @@
         var marker = new google.maps.Marker({position: uluru, map: map});
     }
 </script>
-<script async defer th:src="@{https://maps.googleapis.com/maps/api/js(key=${@environment.getProperty('google-api-key')},callback='initMap')}"></script>
+<script async defer
+        th:src="@{https://maps.googleapis.com/maps/api/js(key=${@environment.getProperty('google-api-key')},callback='initMap')}"></script>
 </body>
 </html>

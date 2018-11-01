@@ -38,4 +38,6 @@ public class Room {
 
     @ManyToOne
     Hotel hotel;
+
+    Boolean awesome;
 }

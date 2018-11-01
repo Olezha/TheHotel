@@ -72,7 +72,7 @@ ALTER TABLE HOTEL
 
 INSERT INTO HOTEL (ID,ADDRESS,DESCRIPTION,NAME,RULES,GEO_POINT_ID)
 VALUES
-  (2,'Київ','Веб рішення для готелю — інформація, бронювання та календар завантаження готелю <i class="fas fa-thumbs-up"></i>','Hôtel',NULL,1);
+  (2,'Київ','<p>Веб рішення для готелю — інформація, бронювання та календар завантаження готелю <i class="fas fa-thumbs-up"></i></p> <p>Lorem ipsum dolor amet gastropub drinking vinegar glossier wayfarers activated charcoal occupy. IPhone austin fam man bun literally flannel hella disrupt vinyl kale chips cray sartorial cold-pressed subway tile af. Asymmetrical sriracha fashion axe stumptown keffiyeh food truck tumeric organic fam biodiesel waistcoat lumbersexual XOXO. Kombucha offal gluten-free post-ironic, intelligentsia before they sold out meh humblebrag lumbersexual ennui snackwave salvia. Typewriter readymade before they sold out fingerstache intelligentsia viral fanny pack.</p>','Hôtel',NULL,1);
 
 CREATE CACHED TABLE HOTEL_PHOTOS
 (
@@ -96,17 +96,18 @@ CREATE CACHED TABLE ROOM
   NUMBER       VARCHAR(255),
   PERSONS      INTEGER,
   PRICE        DECIMAL(19,2),
-  HOTEL_ID     BIGINT
+  HOTEL_ID     BIGINT,
+  AWESOME      BOOLEAN
 );
 
 ALTER TABLE ROOM
   ADD PRIMARY KEY (ID);
 
-INSERT INTO ROOM (ID,DESCRIPTION,NUMBER,PERSONS,PRICE,HOTEL_ID)
+INSERT INTO ROOM (ID,AWESOME,DESCRIPTION,NUMBER,PERSONS,PRICE,HOTEL_ID)
 VALUES
-  (18,'','115',3,350.00,2),
-  (28,'','116',4,250.00,2),
-  (37,'','79',2,190.00,2);
+  (18,TRUE,'Lorem ipsum dolor amet man bun sriracha before they sold out ennui street art. Thundercats vinyl intelligentsia, tousled brunch vape kickstarter cronut.','115',3,350.00,2),
+  (28,TRUE,'Lorem ipsum dolor amet scenester cred stumptown occupy fanny pack health goth seitan poke copper mug typewriter.','116',4,250.00,2),
+  (37,FALSE,'Lorem ipsum dolor amet meggings plaid franzen, affogato stumptown gastropub vaporware pork belly schlitz drinking vinegar enamel pin locavore poutine tofu next level. Hexagon drinking vinegar subway tile prism vape chia, affogato paleo salvia banh mi twee cloud bread. Gluten-free retro pickled mustache pour-over polaroid master cleanse YOLO ugh tousled actually pop-up put a bird on it. Cornhole jean shorts four loko vape gluten-free craft beer ennui.','79',2,190.00,2);
 
 CREATE CACHED TABLE ROOM_PHOTOS
 (
