@@ -79,11 +79,12 @@ public class HomeController {
     @RequestMapping("/hotel/{hotelId}/browse")
     public String browse(Model model, @PathVariable Long hotelId,
                          @ModelAttribute AvailabilityFilterDto filter) {
-        if (filter.getCheckInCheckOut() == null) {
-            model.addAttribute("filter", new AvailabilityFilterDto());
+        if (filter.getCheckInCheckOut() == null || filter.isSameDay()) {
+            if (filter.getCheckInCheckOut() != null)
+                model.addAttribute("message", "message.same-day-reservation");
+            model.addAttribute("filter", filter);
             model.addAttribute("allRooms", roomRepository.findAllByHotel_Id(hotelId));
-        }
-        else {
+        } else {
             model.addAttribute("filter", filter);
             model.addAttribute("availableRooms",
                     reservationService.availableRooms(
@@ -97,9 +98,11 @@ public class HomeController {
     }
 
     @PostMapping("/hotel/{hotelId}/room/{roomId}/reserve")
-    public String reservation(@PathVariable Long roomId, @ModelAttribute AvailabilityFilterDto filter, Model model) {
+    public String reservation(@PathVariable Long roomId,
+                              @PathVariable Long hotelId,
+                              @ModelAttribute AvailabilityFilterDto filter, Model model) {
         if (filter.isSameDay())
-            throw new RuntimeException("SameDay reservation");
+            return browse(model, hotelId, filter);
 
         Optional<Room> room = roomRepository.findById(roomId);
         if (!room.isPresent())
@@ -202,7 +205,8 @@ class ReservationDto {
 
     String guestRemark;
 
-    ReservationDto() {}
+    ReservationDto() {
+    }
 
     ReservationDto(Reservation reservation) {
         id = reservation.getId();
