@@ -15,9 +15,14 @@
 <div class="container-for-centered">
     <img th:src="@{/img/gabriel-ghnassia-518-unsplash_cr.jpg}" style="width: 100%;"/>
     <div class="centered">
-        <h1 class="text-white">A Single Stars Hotel</h1>
-        <p class="text-white">Across the street from the ordinary. Discover a hotel that defines a new dimension of
-            luxury.</p>
+        <h1 class="text-white">
+            <span  class="d-none d-sm-inline">A Single Stars</span>
+            Hôtel
+        </h1>
+        <p class="text-white">
+            <span class="d-none d-sm-inline">Across the street from the ordinary.</span>
+            <span class="d-none d-md-inline">Discover a hotel that defines a new dimension of luxury.</span>
+        </p>
     </div>
 </div>
 
@@ -102,7 +107,7 @@
             </div>
         </div>
         <div class="row">
-            <div th:each="room:${hotel.rooms}" th:if="${room.awesome}" class="col">
+            <div th:each="room:${hotel.rooms}" th:if="${room.awesome}" class="col-md">
                 <div class="card border-dark mb-4" style="width: 100%;">
                     <img th:if="${not room.photos.isEmpty()}" th:src="@{'/files/'+${room.photos.get(0)}}"
                          class="card-img-top">
