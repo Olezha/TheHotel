@@ -118,11 +118,9 @@ public class HomeController {
 
     @PostMapping("/reservation/confirm")
     public String confirmReservation(Model model,
-                                     @Valid @ModelAttribute ReservationDto reservation, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("reservation", reservation);
+                                     @Valid @ModelAttribute("reservation") ReservationDto reservation, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
             return "reservation";
-        }
 
         Optional<Reservation> reserveOptional = reservationRepository.findById(reservation.getId());
         if (!reserveOptional.isPresent())
