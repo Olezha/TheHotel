@@ -58,6 +58,7 @@
     <form id="images-form" th:action="@{/management/files}" class="dropzone"></form>
 </div>
 
+<th:block th:include="management/fragments::footer"/>
 <th:block th:include="fragments::js"/>
 <script th:src="@{/ext/dropzone/5.2.0/dropzone.js}"></script>
 <script th:inline="javascript">
