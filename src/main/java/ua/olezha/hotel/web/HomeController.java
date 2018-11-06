@@ -76,16 +76,38 @@ public class HomeController {
         return "home";
     }
 
-    @RequestMapping("/hotel/{hotelId}/browse")
-    public String browse(Model model, @PathVariable Long hotelId,
-                         @ModelAttribute AvailabilityFilterDto filter) {
+    @RequestMapping("/hotel/{hotelId}/room/{roomId}")
+    public String room(Model model, @PathVariable Long hotelId, @PathVariable Long roomId,
+                         @ModelAttribute("filter") AvailabilityFilterDto filter) {
+        Optional<Room> roomOptional = roomRepository.findById(roomId);
+        if (!roomOptional.isPresent())
+            throw new RuntimeException("Room isAbsent");
+        Room room = roomOptional.get();
+        model.addAttribute("room", room);
+
         if (filter.getCheckInCheckOut() == null || filter.isSameDay()) {
             if (filter.getCheckInCheckOut() != null)
                 model.addAttribute("message", "message.same-day-reservation");
-            model.addAttribute("filter", filter);
+        } else {
+            model.addAttribute("available",
+                    reservationService.availableRooms(
+                            hotelId,
+                            filter.getCheckIn(checkInHour, checkInMinute),
+                            filter.getCheckOut(checkOutHour, checkOutMinute),
+                            filter.getPersons()).contains(room));
+        }
+
+        return "room";
+    }
+
+    @RequestMapping("/hotel/{hotelId}/browse")
+    public String browse(Model model, @PathVariable Long hotelId,
+                         @ModelAttribute("filter") AvailabilityFilterDto filter) {
+        if (filter.getCheckInCheckOut() == null || filter.isSameDay()) {
+            if (filter.getCheckInCheckOut() != null)
+                model.addAttribute("message", "message.same-day-reservation");
             model.addAttribute("allRooms", roomRepository.findAllByHotel_Id(hotelId));
         } else {
-            model.addAttribute("filter", filter);
             model.addAttribute("availableRooms",
                     reservationService.availableRooms(
                             hotelId,
