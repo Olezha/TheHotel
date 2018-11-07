@@ -49,7 +49,7 @@
                 <th:block th:text="${room.persons}"/>
             </div>
             <div>
-                <th:block th:text="${room.description}"/>
+                <th:block th:utext="${room.description}"/>
             </div>
             <div><span th:text="#{price}">Price</span>:
                 <th:block th:text="${room.price}"/>
