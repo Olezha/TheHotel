@@ -175,7 +175,8 @@ public class HomeController {
 @FieldDefaults(level = AccessLevel.PRIVATE)
 class AvailabilityFilterDto {
 
-    String checkInCheckOut;
+    String checkInCheckOut = dateToString(LocalDateTime.now()) +
+            " - " + dateToString(LocalDateTime.now().plusDays(1));
 
     Integer persons;
 
@@ -197,6 +198,10 @@ class AvailabilityFilterDto {
     private LocalDate parseDate(String date) {
         return LocalDate.parse(date,
                 DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
+    private String dateToString(LocalDateTime date) {
+        return date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }
 
